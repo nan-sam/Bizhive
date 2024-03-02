@@ -1,6 +1,6 @@
 # Description
 
-- this is a working application which allows an existing user to log into and out of the application
+- this is a working application which allows users to login and to register
 
 # Features to Add
 
