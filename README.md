@@ -2,9 +2,32 @@
 
 - this is a working application which allows users to login and to register
 
-# Features to Add
+# Tier One Features to Add
 
+- a user should be able to view all the businesses
+  - each business should have a name
+- a user should be able to see the other users
+- a user should be able to see the reviews for a selected business
+  - a review should have
+    - a comment
+    - a rating which is an integer from 1 to 5
+- a user should be able to see the reviews for a selected business
+- a loggedin user should be able to create a review for a business
+- a loggedin user should be able to remove a view which they created
+
+  
+- the wireframes provide a visual representation of the functionality which is described
+  
 <a href='https://github.com/FullstackAcademy/acme-business-reviews/blob/main/acme_reviews.png'>Wireframe</a>
+
+# Optional Features to Add
+
+- a user should be able to edit their reviews
+- a business should have an image_url which can be shown on it's detail page
+- a user should have an a boolean property which allows them to opt into and out of notifications
+- a user can favorite businesses and see the businesses which they favorited
+- a user can be an administrator
+- an administrator can add, edit, and delete businesses
 
 # Setup
 
