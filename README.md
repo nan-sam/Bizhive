@@ -4,7 +4,7 @@
 
 # Features to Add
 
-<a href='https://github.com/FullstackAcademy/fs_vite_express_template/blob/main/wireframe.png'>Wireframe</a>
+<a href='https://github.com/FullstackAcademy/acme-business-reviews/blob/main/acme_reviews.png'>Wireframe</a>
 
 # Setup
 
