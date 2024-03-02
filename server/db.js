@@ -21,6 +21,11 @@ const createTables = async()=> {
 };
 
 const createUser = async({ username, password})=> {
+  if(!username || !password){
+    const error = Error('username and password required!');
+    error.status = 401;
+    throw error;
+  }
   const SQL = `
     INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
   `;

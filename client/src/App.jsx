@@ -1,25 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link, Route, Routes } from 'react-router-dom';
-
-const Login = ({ login })=> {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const submit = async(ev) => {
-    ev.preventDefault();
-    await login({ username, password });
-  }
-  return (
-    <form onSubmit={ submit }>
-      <input value={ username } placeholder='username' onChange={ ev=> setUsername(ev.target.value)}/>
-      <input value={ password} placeholder='password' onChange={ ev=> setPassword(ev.target.value)}/>
-      <button disabled={ !username || !password }>Login</button>
-    </form>
-  );
-}
+import Users from './Users';
+import Businesses from './Businesses';
+import CreateReview from './CreateReview';
+import Home from './Home';
 
 function App() {
   const [auth, setAuth] = useState({});
+  const [users, setUsers] = useState([]);
+  const [businesses, setBusinesses] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(()=> {
     attemptLoginWithToken();
@@ -43,8 +33,8 @@ function App() {
     }
   };
 
-  const login = async(credentials)=> {
-    const response = await fetch('/api/auth/login', {
+  const authAction = async(credentials, mode)=> {
+    const response = await fetch(`/api/auth/${mode}`, {
       method: 'POST',
       body: JSON.stringify(credentials),
       headers: {
@@ -69,28 +59,34 @@ function App() {
 
   return (
     <>
-      {
-        !auth.id ? <>
-          <Login login={ login }/>
-          </>
-        : <button onClick={ logout }>Logout { auth.username }</button>
-      }
-      {
-        !!auth.id && (
-          <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/faq'>FAQ</Link>
-          </nav>
-        )
-      }
-      {
-        !!auth.id && (
-          <Routes>
-            <Route path='/' element={<h1>Home</h1>} />
-            <Route path='/faq' element={<h1>FAQ</h1>} />
-          </Routes>
-        )
-      }
+      <h1>Acme Business Reviews</h1>
+      <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/businesses'>Businesses ({ businesses.length })</Link>
+        <Link to='/users'>Users ({ users.length })</Link>
+        {
+          auth.id ? <Link to='/createReview'>Create Review</Link> : <Link to='/'>Register/Login</Link>
+        }
+     </nav>
+    {
+      auth.id && <button onClick={ logout }>Logout { auth.username }</button>
+    }
+      <Routes>
+        <Route path='/' element={
+          <Home
+            authAction = { authAction }
+            auth = { auth }
+            businesses = { businesses }
+            users = { users }
+            reviews = { reviews }
+          />
+        } />
+        <Route path='/businesses' element={<Businesses businesses={ businesses } />} />
+        <Route path='/users' element={<Users users={ users}/>} />
+        {
+          !!auth.id && <Route path='/createReview' element={<CreateReview />} />
+        }
+      </Routes>
     </>
   )
 }

@@ -1,3 +1,6 @@
+body {
+  font-family: verdana;
+}
 form {
   display: flex;
   flex-direction: column;
@@ -5,4 +8,15 @@ form {
 
 form > * {
   margin: 0.5rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+}
+
+.error {
+  background-color: tomato;
+  padding: 0.5rem;
+  color: cornSilk;
 }
