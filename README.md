@@ -4,14 +4,19 @@
 
 # Tier One Features to Add
 
+## authenticated and non authenticated users
+
 - a user should be able to view all the businesses
   - each business should have a name
 - a user should be able to see the other users
-- a user should be able to see the reviews for a selected business
-  - a review should have
+- a review should have both a user_id and a business_id as well as:
     - a comment
     - a rating which is an integer from 1 to 5
-- a user should be able to see the reviews for a selected business
+- a user should be able to see the reviews made by a selected user with a link to /users/:id which they can be accessed from the users listing
+- a user should be able to see the reviews of a selected business with a link to /businesses/:id which can be accessed from the businesses listing
+
+## authenticated users
+
 - a loggedin user should be able to create a review for a business
 - a loggedin user should be able to remove a view which they created
 
