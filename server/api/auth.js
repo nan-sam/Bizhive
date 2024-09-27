@@ -11,12 +11,12 @@ router.get("/me", (req, res) => {
   res.send("Here is your accounts info");
 });
 
-router.post("/register", (req, res) => {
+router.get("/register", (req, res) => {
   // console.log("REQUEST BODY:", req.body);
   res.send("Registration successful");
 });
 
-router.post("/login", (req, res) => {
+router.get("/login", (req, res) => {
   console.log("REQUEST BODY", req.body);
   res.send("Login successful");
 });

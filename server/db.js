@@ -1,60 +1,66 @@
-const pg = require('pg');
-const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/fsa_app_db');
-const uuid = require('uuid');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const JWT = process.env.JWT || 'shhh';
-if(JWT === 'shhh'){
-  console.log('If deployed, set process.env.JWT to something other than shhh');
+const pg = require("pg");
+const client = new pg.Client(process.env.DATABASE_URL);
+const uuid = require("uuid");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const JWT = process.env.JWT || "shhh";
+if (JWT === "shhh") {
+  console.log("If deployed, set process.env.JWT to something other than shhh");
 }
 
-const createTables = async()=> {
-  const SQL = `
-    DROP TABLE IF EXISTS users;
-    CREATE TABLE users(
-      id UUID PRIMARY KEY,
-      username VARCHAR(20) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL
-    );
-  `;
-  await client.query(SQL);
-};
+// const createTables = async () => {
+//   const SQL = `
+//     DROP TABLE IF EXISTS users;
+//     CREATE TABLE users(
+//       id UUID PRIMARY KEY,
+//       username VARCHAR(20) UNIQUE NOT NULL,
+//       password VARCHAR(255) NOT NULL
+//     );
+//   `;
+//   await client.query(SQL);
+// };
 
-const createUser = async({ username, password})=> {
-  if(!username || !password){
-    const error = Error('username and password required!');
+const createUser = async ({ username, password }) => {
+  if (!username || !password) {
+    const error = Error("username and password required!");
     error.status = 401;
     throw error;
   }
   const SQL = `
     INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
   `;
-  const response = await client.query(SQL, [uuid.v4(), username, await bcrypt.hash(password, 5)]);
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    username,
+    await bcrypt.hash(password, 5),
+  ]);
   return response.rows[0];
 };
 
-const authenticate = async({ username, password })=> {
+const authenticate = async ({ username, password }) => {
   const SQL = `
     SELECT id, username, password FROM users WHERE username=$1;
   `;
   const response = await client.query(SQL, [username]);
-  if(!response.rows.length || (await bcrypt.compare(password, response.rows[0].password)) === false){
-    const error = Error('not authorized');
+  if (
+    !response.rows.length ||
+    (await bcrypt.compare(password, response.rows[0].password)) === false
+  ) {
+    const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
-  const token = await jwt.sign({ id: response.rows[0].id}, JWT);
+  const token = await jwt.sign({ id: response.rows[0].id }, JWT);
   return { token };
 };
 
-const findUserWithToken = async(token)=> {
+const findUserWithToken = async (token) => {
   let id;
-  try{
+  try {
     const payload = await jwt.verify(token, JWT);
     id = payload.id;
-  }
-  catch(ex){
-    const error = Error('not authorized');
+  } catch (ex) {
+    const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
@@ -62,15 +68,15 @@ const findUserWithToken = async(token)=> {
     SELECT id, username FROM users WHERE id=$1;
   `;
   const response = await client.query(SQL, [id]);
-  if(!response.rows.length){
-    const error = Error('not authorized');
+  if (!response.rows.length) {
+    const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
   return response.rows[0];
 };
 
-const fetchUsers = async()=> {
+const fetchUsers = async () => {
   const SQL = `
     SELECT id, username FROM users;
   `;
@@ -80,9 +86,9 @@ const fetchUsers = async()=> {
 
 module.exports = {
   client,
-  createTables,
+  // createTables,
   createUser,
   fetchUsers,
   authenticate,
-  findUserWithToken
+  findUserWithToken,
 };

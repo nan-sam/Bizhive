@@ -11,7 +11,7 @@ require("dotenv").config();
 
 const {
   client,
-  createTables,
+  // createTables,
   createUser,
   fetchUsers,
   authenticate,
@@ -104,8 +104,8 @@ const init = async () => {
   await client.connect();
   console.log("connected to database");
 
-  await createTables();
-  console.log("tables created");
+  // await createTables();
+  // console.log("tables created");
 
   const [moe, lucy, ethyl, curly] = await Promise.all([
     createUser({ username: "moe", password: "m_pw" }),

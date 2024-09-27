@@ -2,9 +2,11 @@
   "name": "fsa_vite_express_template",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
-    "start:dev": "nodemon server"
+    "start:dev": "nodemon server",
+    "dev": "nodemon ./index.js",
+    "seed": "node ./server/db/seed.js"
   },
   "keywords": [],
   "author": "",
