@@ -9,5 +9,4 @@ const db = new Client({
   database: process.env.DB_NAME,
 });
 
-console.log(db);
 module.exports = db;

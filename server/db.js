@@ -3,10 +3,10 @@ const client = new pg.Client(process.env.DATABASE_URL);
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const JWT = process.env.JWT || "shhh";
-if (JWT === "shhh") {
-  console.log("If deployed, set process.env.JWT to something other than shhh");
-}
+const JWT = process.env.JWT;
+// if (JWT === "shhh") {
+//   console.log("If deployed, set process.env.JWT to something other than shhh");
+// }
 
 // const createTables = async () => {
 //   const SQL = `
@@ -20,22 +20,22 @@ if (JWT === "shhh") {
 //   await client.query(SQL);
 // };
 
-const createUser = async ({ username, password }) => {
-  if (!username || !password) {
-    const error = Error("username and password required!");
-    error.status = 401;
-    throw error;
-  }
-  const SQL = `
-    INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
-  `;
-  const response = await client.query(SQL, [
-    uuid.v4(),
-    username,
-    await bcrypt.hash(password, 5),
-  ]);
-  return response.rows[0];
-};
+// const createUser = async ({ username, password }) => {
+//   if (!username || !password) {
+//     const error = Error("username and password required!");
+//     error.status = 401;
+//     throw error;
+//   }
+//   const SQL = `
+//     INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
+//   `;
+//   const response = await client.query(SQL, [
+//     uuid.v4(),
+//     username,
+//     await bcrypt.hash(password, 5),
+//   ]);
+//   return response.rows[0];
+// };
 
 const authenticate = async ({ username, password }) => {
   const SQL = `
@@ -87,7 +87,7 @@ const fetchUsers = async () => {
 module.exports = {
   client,
   // createTables,
-  createUser,
+  // createUser,
   fetchUsers,
   authenticate,
   findUserWithToken,

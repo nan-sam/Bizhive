@@ -1,24 +1,27 @@
-//When working with a database driven application, you will not have data in the beginning
-//The database will be empty. To test CRUD functionality we need some dummy data to
-//interact with.test
 require("dotenv").config();
 
-//Client is an object that represents the database and lets us do the things
-//databases can
-//In order to use this database object to interact with the database, we need to run a query
-//SQL(Structured Query Language) is the language we're using to interact with our database
-//Any type of interaction with the database is known as querying the database
-//These are all aysnc operations - It takes time to the database to do this
-//Anytime we'rre interacting with SQL and possibly using user input, it's
-//best to use a library like pg which can render the input neutral via escape characters for example
-//parsers can then figure it out
-//We first need to seed our database
 const pg = require("pg");
-const client = new pg.Client(
-  process.env.DATABASE_URL || "postgres://localhost/fsa_app_db"
-);
-const UUID = require("uuid");
+// const client = new pg.Client(process.env.DATABASE_URL);
+const client = require("./client");
+const { createUser } = require("./users");
+const { createBusiness } = require("./business");
 
+const users = [
+  { username: "moe", password: "m_pw" },
+  { username: "lucy", password: "l_pw" },
+  { username: "ethyl", password: "e_pw" },
+  { username: "curly", password: "c_pw" },
+];
+
+const businesses = [
+  { businessname: "Flowers and Twine", type: "florist" },
+  { businessname: "Gardner and Beedle", type: "liquor" },
+  { businessname: "The Greater Good", type: "pub" },
+  { businessname: "Provenance", type: "food" },
+];
+
+//If using foreign keys, if your table relies on another table, you can't drop it
+//Unless you cascade
 const dropTables = async () => {
   try {
     await client.query(`DROP TABLE IF EXISTS users CASCADE`);
@@ -41,7 +44,8 @@ const createTables = async () => {
     await client.query(`
       CREATE TABLE business(
         id UUID PRIMARY KEY,
-        businessname VARCHAR(40)
+        businessname VARCHAR(40),
+        type VARCHAR(40)
       )`);
 
     await client.query(`
@@ -56,6 +60,26 @@ const createTables = async () => {
   }
 };
 
+const insertUsers = async () => {
+  try {
+    for (const user of users) {
+      await createUser(user);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const insertBusiness = async () => {
+  try {
+    for (const business of businesses) {
+      await createBusiness(business);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const seedDatabase = async () => {
   try {
     client.connect();
@@ -65,6 +89,12 @@ const seedDatabase = async () => {
     console.log("CREATING TABLES...");
     await createTables();
     console.log("TABLES SUCCESSFULLY CREATED");
+    console.log("INSERTING USERS");
+    await insertUsers();
+    console.log("USERS SUCCESSFULLY ADDED");
+    console.log("INSERTING BUSINESS");
+    await insertBusiness();
+    console.log("BUSINESS SUCCESSFULLY INSERTED");
   } catch (err) {
     console.log(err);
   } finally {
