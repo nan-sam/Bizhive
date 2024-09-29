@@ -11,6 +11,7 @@ const users = [
   { username: "lucy", password: "l_pw" },
   { username: "ethyl", password: "e_pw" },
   { username: "curly", password: "c_pw" },
+  { username: "katt", password: "k_pw" },
 ];
 
 const businesses = [
@@ -18,6 +19,7 @@ const businesses = [
   { businessname: "Gardner and Beedle", type: "liquor" },
   { businessname: "The Greater Good", type: "pub" },
   { businessname: "Provenance", type: "food" },
+  { businessname: "The Beckford Arms", type: "pub" },
 ];
 
 //If using foreign keys, if your table relies on another table, you can't drop it
@@ -50,10 +52,10 @@ const createTables = async () => {
 
     await client.query(`
       CREATE TABLE reviews(
-      id UUID PRIMARY KEY,
       usersId UUID REFERENCES users(id),
-      businessId UUID REFERENCES business(id)
-
+      businessId UUID REFERENCES business(id),
+      review,
+      rating 
       ) `);
   } catch (err) {
     console.log(err);

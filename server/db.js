@@ -54,41 +54,41 @@ const authenticate = async ({ username, password }) => {
   return { token };
 };
 
-const findUserWithToken = async (token) => {
-  let id;
-  try {
-    const payload = await jwt.verify(token, JWT);
-    id = payload.id;
-  } catch (ex) {
-    const error = Error("not authorized");
-    error.status = 401;
-    throw error;
-  }
-  const SQL = `
-    SELECT id, username FROM users WHERE id=$1;
-  `;
-  const response = await client.query(SQL, [id]);
-  if (!response.rows.length) {
-    const error = Error("not authorized");
-    error.status = 401;
-    throw error;
-  }
-  return response.rows[0];
-};
+// const findUserWithToken = async (token) => {
+//   let id;
+//   try {
+//     const payload = await jwt.verify(token, JWT);
+//     id = payload.id;
+//   } catch (ex) {
+//     const error = Error("not authorized");
+//     error.status = 401;
+//     throw error;
+//   }
+//   const SQL = `
+//     SELECT id, username FROM users WHERE id=$1;
+//   `;
+//   const response = await client.query(SQL, [id]);
+//   if (!response.rows.length) {
+//     const error = Error("not authorized");
+//     error.status = 401;
+//     throw error;
+//   }
+//   return response.rows[0];
+// };
 
-const fetchUsers = async () => {
-  const SQL = `
-    SELECT id, username FROM users;
-  `;
-  const response = await client.query(SQL);
-  return response.rows;
-};
+// const fetchUsers = async () => {
+//   const SQL = `
+//     SELECT id, username FROM users;
+//   `;
+//   const response = await client.query(SQL);
+//   return response.rows;
+// };
 
 module.exports = {
   client,
   // createTables,
   // createUser,
-  fetchUsers,
+  // fetchUsers,
   authenticate,
-  findUserWithToken,
+  // findUserWithToken,
 };

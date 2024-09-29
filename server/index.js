@@ -4,24 +4,21 @@
 //We then use our logic to take this request, do something to it, and respond to it
 const express = require("express");
 
+//We now run express as a function. This is avaialble when we run our first line of code and create
+//an express app which allows us to take requests and make responses
+//This will create an express application
+const app = express();
+
 //This will let us process any environment variables in our app. It needs to be before
 //any other routes because routes might need access to them, so they need to be running
 //in advance
 require("dotenv").config();
 
-const {
-  client,
-  // createTables,
-  // createUser,
-  fetchUsers,
-  authenticate,
-  findUserWithToken,
-} = require("./db");
+const client = require("./db/client");
+client.connect();
 
-//We now run express as a function. This is avaialble when we run our first line of code and create
-//an express app which allows us to take requests and make responses
-//This will create an express application
-const app = express();
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`listening on port ${port}`));
 
 //Use is a method provided by express and it has many different uses.
 //In this case, use helps us tell our app what to do with request bodies that are in json. This is
@@ -76,21 +73,21 @@ app.post("/api/auth/register", async (req, res, next) => {
   }
 });
 
-app.get("/api/auth/me", isLoggedIn, (req, res, next) => {
-  try {
-    res.send(req.user);
-  } catch (ex) {
-    next(ex);
-  }
-});
+// app.get("/api/auth/me", isLoggedIn, (req, res, next) => {
+//   try {
+//     res.send(req.user);
+//   } catch (ex) {
+//     next(ex);
+//   }
+// });
 
-app.get("/api/users", async (req, res, next) => {
-  try {
-    res.send(await fetchUsers());
-  } catch (ex) {
-    next(ex);
-  }
-});
+// app.get("/api/users", async (req, res, next) => {
+//   try {
+//     res.send(await fetchUsers());
+//   } catch (ex) {
+//     next(ex);
+//   }
+// });
 
 app.use((err, req, res, next) => {
   console.log(err);
@@ -98,25 +95,3 @@ app.use((err, req, res, next) => {
     .status(err.status || 500)
     .send({ error: err.message ? err.message : err });
 });
-
-const init = async () => {
-  const port = process.env.PORT || 3000;
-  // await client.connect();
-  // console.log("connected to database");
-
-  // await createTables();
-  // console.log("tables created");
-
-  // const [moe, lucy, ethyl, curly] = await Promise.all([
-  //   createUser({ username: "moe", password: "m_pw" }),
-  //   createUser({ username: "lucy", password: "l_pw" }),
-  //   createUser({ username: "ethyl", password: "e_pw" }),
-  //   createUser({ username: "curly", password: "c_pw" }),
-  // ]);
-
-  // console.log(await fetchUsers());
-
-  app.listen(port, () => console.log(`listening on port ${port}`));
-};
-
-init();

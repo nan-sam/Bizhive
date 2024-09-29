@@ -1,6 +1,12 @@
 const client = require("./client");
 const uuid = require("uuid");
 
+const fetchBusinesses = async () => {
+  const SQL = `SELECT * FROM business`;
+  const response = await client.query(SQL);
+  return response.rows;
+};
+
 const createBusiness = async ({ businessname, type }) => {
   if (!businessname || !type) {
     const error = Error("businessname and type required!");
@@ -14,4 +20,21 @@ const createBusiness = async ({ businessname, type }) => {
   return response;
 };
 
-module.exports = { createBusiness };
+const createReview = async ({ review, rating }) => {
+  if (!review || !rating) {
+    const error = Error("review and rating are required!");
+    error.status = 401;
+    throw error;
+  }
+  const SQL = `
+  INSERT INTO reviews(usersId, businessId, review, rating) VALUES ($1, $2, $3, $4)
+`;
+  const response = await client.query(SQL, [
+    usersId,
+    businessId,
+    review,
+    rating,
+  ]);
+  return response;
+};
+module.exports = { createBusiness, fetchBusinesses, createReview };

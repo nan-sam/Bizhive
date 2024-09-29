@@ -1,13 +1,15 @@
 //Endpoints for users
 const express = require("express");
 const router = express.Router();
+const { fetchUsers } = require("../db/users");
 
-// router.get("/", (req, res) => {
-//   res.send("Here are your users");
-// });
-
-//POST request BASE_URL
-router.post("/register", (req, res) => {
-  res.send("user registered");
+router.get("/", async (req, res) => {
+  try {
+    const results = await fetchUsers();
+    res.send(results);
+  } catch (err) {
+    res.send({ err, message: "something went wrong" });
+  }
 });
+
 module.exports = router;
