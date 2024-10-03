@@ -1,7 +1,8 @@
 //Endpoints for users
 const express = require("express");
 const router = express.Router();
-const { fetchUsers } = require("../db/users");
+const { fetchUsers } = require("../db/index");
+const { findUserWithToken } = require("../db/users");
 
 router.get("/", async (req, res) => {
   try {

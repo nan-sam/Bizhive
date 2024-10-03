@@ -1,9 +1,9 @@
-const pg = require("pg");
-const client = new pg.Client(process.env.DATABASE_URL);
-const uuid = require("uuid");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const JWT = process.env.JWT;
+// const pg = require("pg");
+// const client = new pg.Client(process.env.DATABASE_URL);
+// const uuid = require("uuid");
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
+// const JWT = process.env.JWT;
 // if (JWT === "shhh") {
 //   console.log("If deployed, set process.env.JWT to something other than shhh");
 // }
@@ -37,22 +37,22 @@ const JWT = process.env.JWT;
 //   return response.rows[0];
 // };
 
-const authenticate = async ({ username, password }) => {
-  const SQL = `
-    SELECT id, username, password FROM users WHERE username=$1;
-  `;
-  const response = await client.query(SQL, [username]);
-  if (
-    !response.rows.length ||
-    (await bcrypt.compare(password, response.rows[0].password)) === false
-  ) {
-    const error = Error("not authorized");
-    error.status = 401;
-    throw error;
-  }
-  const token = await jwt.sign({ id: response.rows[0].id }, JWT);
-  return { token };
-};
+// const authenticate = async ({ username, password }) => {
+//   const SQL = `
+//     SELECT id, username, password FROM users WHERE username=$1;
+//   `;
+//   const response = await client.query(SQL, [username]);
+//   if (
+//     !response.rows.length ||
+//     (await bcrypt.compare(password, response.rows[0].password)) === false
+//   ) {
+//     const error = Error("not authorized");
+//     error.status = 401;
+//     throw error;
+//   }
+//   const token = await jwt.sign({ id: response.rows[0].id }, JWT);
+//   return { token };
+// };
 
 // const findUserWithToken = async (token) => {
 //   let id;
@@ -84,11 +84,11 @@ const authenticate = async ({ username, password }) => {
 //   return response.rows;
 // };
 
-module.exports = {
-  client,
-  // createTables,
-  // createUser,
-  // fetchUsers,
-  authenticate,
-  // findUserWithToken,
-};
+// module.exports = {
+//   client,
+// createTables,
+// createUser,
+// fetchUsers,
+// authenticate,
+// findUserWithToken,
+// };

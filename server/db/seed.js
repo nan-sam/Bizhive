@@ -3,7 +3,7 @@ require("dotenv").config();
 const pg = require("pg");
 // const client = new pg.Client(process.env.DATABASE_URL);
 const client = require("./client");
-const { createUser } = require("./users");
+const { createUser } = require("./auth");
 const { createBusiness } = require("./business");
 
 const users = [
