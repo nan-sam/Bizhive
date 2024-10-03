@@ -1,6 +1,6 @@
 //Endpoints for businesses
 const express = require("express");
-const { fetchBusinesses } = require("../db/business");
+const { fetchBusinesses, fetchBusinessByType } = require("../db/business");
 
 const router = express.Router();
 

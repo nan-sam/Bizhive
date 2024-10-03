@@ -7,6 +7,16 @@ const fetchBusinesses = async () => {
   return response.rows;
 };
 
+const fetchBusinessByType = async (type) => {
+  if (!type) {
+    const error = Error("Business type required!");
+    error.status = 401;
+    throw error;
+  }
+  const SQL = `SELECT * FROM business WHERE type=$1`;
+  const response = await client.query(SQL, [type]);
+  return response.rows;
+};
 const createBusiness = async ({ businessname, type }) => {
   if (!businessname || !type) {
     const error = Error("businessname and type required!");
@@ -37,4 +47,9 @@ const createReview = async ({ review, rating }) => {
   ]);
   return response;
 };
-module.exports = { createBusiness, fetchBusinesses, createReview };
+module.exports = {
+  fetchBusinesses,
+  fetchBusinessByType,
+  createBusiness,
+  createReview,
+};

@@ -4,7 +4,7 @@ const pg = require("pg");
 // const client = new pg.Client(process.env.DATABASE_URL);
 const client = require("./client");
 const { createUser } = require("./auth");
-const { createBusiness } = require("./business");
+const { createBusiness, fetchBusinessByType } = require("./business");
 
 const users = [
   { username: "moe", password: "m_pw" },
@@ -39,6 +39,9 @@ const createTables = async () => {
     await client.query(`
     CREATE TABLE users(
       id UUID PRIMARY KEY,
+      firstname VARCHAR(64),
+      lastname VARCHAR(64),
+      email VARCHAR(64), 
       username VARCHAR(20) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL
     )`);
@@ -46,12 +49,12 @@ const createTables = async () => {
     await client.query(`
       CREATE TABLE business(
         id UUID PRIMARY KEY,
-        businessname VARCHAR(40),
+        businessname VARCHAR(64),
         type VARCHAR(40)
       )`);
 
     await client.query(`
-      CREATE TABLE reviews(
+    CREATE TABLE reviews(
       usersId UUID REFERENCES users(id),
       businessId UUID REFERENCES business(id),
       review,
@@ -96,6 +99,7 @@ const seedDatabase = async () => {
     console.log("USERS SUCCESSFULLY ADDED");
     console.log("INSERTING BUSINESS");
     await insertBusiness();
+
     console.log("BUSINESS SUCCESSFULLY INSERTED");
   } catch (err) {
     console.log(err);
