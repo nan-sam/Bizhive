@@ -9,6 +9,7 @@ const {
   authenticate,
   fetchUserByUsername,
 } = require("../db/index");
+
 const { requireUser } = require("../api/utils");
 
 router.get("/", (req, res) => {
@@ -39,9 +40,8 @@ router.post("/register", async (req, res, next) => {
     const result = await createUser(req.body);
     if (result) {
       const token = jwt.sign({ id: result.id, username }, JWT, {
-        expiresIn: "1wk",
+        expiresIn: "7d",
       });
-      console.log(token);
       res.send({
         message: "Registration successful",
         token,
@@ -67,9 +67,27 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/login", (req, res, next) => {
-  console.log("REQUEST BODY", req.body);
-  res.send("Login successful");
+router.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    next({
+      name: "MissingCredentialsError",
+      message: "Please supply both an email and password",
+    });
+  }
+  try {
+    const result = await authenticate(req.body);
+    if (result) {
+      res.send({ message: "Login successful", token });
+    } else {
+      next({
+        name: "Incorrect Credentials Error",
+        message: "Username or password is incorrect",
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

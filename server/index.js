@@ -9,6 +9,13 @@ const express = require("express");
 //This will create an express application
 const app = express();
 
+// No 'Access-Control-Allow-Origin' header is present on the requested resource.
+//CORS: Cross Origin Resource Sharing allows a website on one URL to request data from a website on another URL
+//In my case I was trying to fetch data from my api on the front end only to be hit with a CORS error
+//The Browser implimented the same origin policy  as part of its security model.
+const cors = require("cors");
+app.use(cors({ origin: "http://localhost:5173" }));
+
 //This will let us process any environment variables in our app. It needs to be before
 //any other routes because routes might need access to them, so they need to be running
 //in advance

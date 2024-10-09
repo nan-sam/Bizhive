@@ -4,7 +4,7 @@ const pg = require("pg");
 // const client = new pg.Client(process.env.DATABASE_URL);
 const client = require("./client");
 const { createUser } = require("./auth");
-const { createBusiness, fetchBusinessByType } = require("./business");
+const { createBusiness } = require("./business");
 
 const users = [
   { username: "moe", password: "m_pw" },
@@ -57,8 +57,8 @@ const createTables = async () => {
     CREATE TABLE reviews(
       usersId UUID REFERENCES users(id),
       businessId UUID REFERENCES business(id),
-      review,
-      rating 
+      review VARCHAR(1022),
+      rating INTEGER CHECK(rating>=1 AND rating<=5)
       ) `);
   } catch (err) {
     console.log(err);
