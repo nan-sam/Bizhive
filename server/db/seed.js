@@ -5,6 +5,7 @@ const pg = require("pg");
 const client = require("./client");
 const { createUser } = require("./auth");
 const { createBusiness } = require("./business");
+const { createReview } = require("./reviews");
 
 const users = [
   { username: "moe", password: "m_pw" },

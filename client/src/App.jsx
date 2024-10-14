@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Users from "./Users";
-import Businesses from "./Businesses";
-import CreateReview from "./CreateReview";
-import Home from "./Home";
+import Register from "./pages/Register";
+import Users from "./pages/Users";
+import Businesses from "./pages/Businesses";
+import CreateReview from "./components/Users/CreateReview";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -13,6 +16,9 @@ function App() {
   const [users, setUsers] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [reviews, setReviews] = useState([]);
+  // const [token, setToken] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBusinesses = async () => {
@@ -34,29 +40,27 @@ function App() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    attemptLoginWithToken();
-  }, []);
+  // useEffect(() => {
+  //   attemptLoginWithToken();
+  // }, []);
+
+  //If mode === login, navigate the user to their account page after
+  //signing in.
+  //If mode === register, nvaigate the user home after successful registration
 
   const attemptLoginWithToken = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
-      const response = await fetch(`/api/auth/me`, {
-        headers: {
-          authorization: token,
-        },
-      });
-      const json = await response.json();
-      if (response.ok) {
-        setAuth(json);
-      } else {
-        window.localStorage.removeItem("token");
-      }
+      alert("Login successful");
+      setAuth(token);
+      navigate("/users");
+    } else {
+      window.localStorage.removeItem("token");
     }
   };
 
   const authAction = async (credentials, mode) => {
-    const response = await fetch(`/api/auth/${mode}`, {
+    const response = await fetch(`${BASE_URL}/auth/${mode}`, {
       method: "POST",
       body: JSON.stringify(credentials),
       headers: {
@@ -65,9 +69,11 @@ function App() {
     });
 
     const json = await response.json();
+
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
       attemptLoginWithToken();
+      //navigate to account page
     } else {
       throw json;
     }
@@ -88,7 +94,7 @@ function App() {
         {auth.id ? (
           <Link to="/createReview">Create Review</Link>
         ) : (
-          <Link to="/">Register/Login</Link>
+          <Link to="/">Login</Link>
         )}
       </nav>
       {auth.id && <button onClick={logout}>Logout {auth.username}</button>}
@@ -105,6 +111,8 @@ function App() {
             />
           }
         />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/businesses"
           element={<Businesses businesses={businesses} />}

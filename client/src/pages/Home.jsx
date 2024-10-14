@@ -12,12 +12,12 @@ const Home = ({ auth, authAction, logout, businesses, users, reviews }) => {
         <br />
         Display some interesting information about our {reviews.length} Reviews
       </p>
-      {!auth.id ? (
+      {/* {!auth.id ? (
         <>
           <AuthForm authAction={authAction} mode="login" />
           <AuthForm authAction={authAction} mode="register" />
         </>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
