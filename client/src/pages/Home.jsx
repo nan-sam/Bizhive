@@ -1,5 +1,3 @@
-import AuthForm from "./AuthForm";
-
 const Home = ({ auth, authAction, logout, businesses, users, reviews }) => {
   return (
     <div>

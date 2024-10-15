@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 
 const AuthForm = ({ authAction, mode = "" }) => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +26,7 @@ const AuthForm = ({ authAction, mode = "" }) => {
         placeholder="password"
         onChange={(ev) => setPassword(ev.target.value)}
       />
-      <button>{mode}</button>
+      <button type="submit">{mode}</button>
     </form>
   );
 };

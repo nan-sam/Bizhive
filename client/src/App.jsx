@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navigations from "./components/Navigations";
 import Register from "./pages/Register";
 import Users from "./pages/Users";
 import Businesses from "./pages/Businesses";
-import CreateReview from "./components/Users/CreateReview";
+import CreateReview from "./pages/CreateReview";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
@@ -44,10 +45,6 @@ function App() {
   //   attemptLoginWithToken();
   // }, []);
 
-  //If mode === login, navigate the user to their account page after
-  //signing in.
-  //If mode === register, nvaigate the user home after successful registration
-
   const attemptLoginWithToken = async () => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -73,7 +70,6 @@ function App() {
     if (response.ok) {
       window.localStorage.setItem("token", json.token);
       attemptLoginWithToken();
-      //navigate to account page
     } else {
       throw json;
     }
@@ -87,16 +83,7 @@ function App() {
   return (
     <>
       <h1>Acme Business Reviews</h1>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/businesses">Businesses ({businesses.length})</Link>
-        <Link to="/users">Users ({users.length})</Link>
-        {auth.id ? (
-          <Link to="/createReview">Create Review</Link>
-        ) : (
-          <Link to="/">Login</Link>
-        )}
-      </nav>
+      <Navigations auth={auth} businesses={businesses} users={users} />
       {auth.id && <button onClick={logout}>Logout {auth.username}</button>}
       <Routes>
         <Route
@@ -111,8 +98,14 @@ function App() {
             />
           }
         />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/register"
+          element={<Register authAction={authAction} auth={auth} />}
+        />
+        <Route
+          path="/login"
+          element={<Login authAction={authAction} auth={auth} />}
+        />
         <Route
           path="/businesses"
           element={<Businesses businesses={businesses} />}
