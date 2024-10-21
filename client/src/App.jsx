@@ -21,7 +21,8 @@ function App() {
   const [businesses, setBusinesses] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
   useEffect(() => {
     attemptLoginWithToken();
   }, []);
@@ -53,12 +54,11 @@ function App() {
       const response = await axios.get(`${BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("token", response);
+      console.log("token", response.status);
 
-      const json = await response.json();
-      console.log("json", json);
-      if (response.ok) {
-        setAuth(json);
+      if (response.status === 200) {
+        setAuth(response.data);
+        navigate("/");
       } else {
         window.localStorage.removeItem("token");
       }
