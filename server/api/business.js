@@ -1,12 +1,11 @@
 //Endpoints for businesses
 const express = require("express");
+const router = express.Router();
 const {
   fetchBusinesses,
   fetchBusinessByType,
   createBusiness,
 } = require("../db/business");
-
-const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   try {
@@ -26,7 +25,7 @@ router.get("/", async (req, res, next) => {
 //   }
 // });
 
-router.post("/me", async (req, res, next) => {
+router.post("/createbusiness", async (req, res, next) => {
   const { businessname, type } = req.body;
   if (!businessname || !type) {
     next({

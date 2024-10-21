@@ -2,6 +2,27 @@
 //Endpoints for users
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const JWT = process.env.JWT;
+
+router.use((req, res, next) => {
+  const auth = req.header("Authorization");
+
+  const prefix = "Bearer ";
+  if (!auth) {
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
+
+    try {
+      parsedToken = jwt.verify(token, JWT);
+      console.log(parsedToken);
+      next();
+    } catch (err) {
+      next(err);
+    }
+  }
+});
 
 router.use("/auth", require("./auth"));
 router.use("/users", require("./users"));

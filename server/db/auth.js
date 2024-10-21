@@ -37,6 +37,7 @@ const authenticate = async ({ username, password }) => {
   const SQL = `
     SELECT id, username, password FROM users WHERE username=$1;
   `;
+
   const response = await client.query(SQL, [username]);
   if (
     !response.rows.length ||
@@ -46,7 +47,15 @@ const authenticate = async ({ username, password }) => {
     error.status = 401;
     throw error;
   }
-  const token = await jwt.sign({ id: response.rows[0].id }, JWT);
+
+  const token = await jwt.sign(
+    { id: response.rows[0].id, username: response.rows[0].username },
+    JWT
+  );
+
+  // const decoded = jwt.verify(token, JWT);
+  // console.log(decoded);
+
   return { token };
 };
 

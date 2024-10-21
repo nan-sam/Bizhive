@@ -24,25 +24,31 @@ const fetchUserByUsername = async (username) => {
 };
 
 const findUserWithToken = async (token) => {
-  let id;
-  try {
-    const payload = await jwt.verify(token, JWT);
-    id = payload.id;
-  } catch (ex) {
-    const error = Error("not authorized");
-    error.status = 401;
-    throw error;
-  }
-  const SQL = `
+  console.log(token);
+  const prefix = "Bearer ";
+
+  if (token.startsWith(prefix)) {
+    const parsedToken = token.slice(prefix.length);
+    try {
+      const payload = await jwt.verify(parsedToken, JWT);
+      id = payload.id;
+    } catch (ex) {
+      const error = Error("not authorized");
+      error.status = 401;
+      throw error;
+    }
+    const SQL = `
     SELECT id, username FROM users WHERE id=$1;
   `;
-  const response = await client.query(SQL, [id]);
-  if (!response.rows.length) {
-    const error = Error("not authorized");
-    error.status = 401;
-    throw error;
+
+    const response = await client.query(SQL, [id]);
+    if (!response.rows.length) {
+      const error = Error("not authorized");
+      error.status = 401;
+      throw error;
+    }
+    return response.rows[0];
   }
-  return response.rows[0];
 };
 
 module.exports = { fetchUsers, findUserWithToken, fetchUserByUsername };

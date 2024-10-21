@@ -1,16 +1,15 @@
 import { Link } from "react-router-dom";
 
-function Navigations({ auth, businesses, users }) {
+function Navigations({ auth, businesses, users, reviews }) {
   return (
     <nav>
       <Link to="/">Home</Link>
       <Link to="/businesses">Businesses ({businesses.length})</Link>
       <Link to="/users">Users ({users.length})</Link>
-      {auth.id ? (
-        <Link to="/createReview">Create Review</Link>
-      ) : (
-        <Link to="/">Login</Link>
-      )}
+      <Link to="/reviews">Reviews({reviews.length})</Link>
+      {!auth && <Link to="/login">Login</Link>}
+
+      {auth && <Link to="/account">My Account</Link>}
     </nav>
   );
 }

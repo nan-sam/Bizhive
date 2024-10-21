@@ -8,25 +8,31 @@ const {
   createUser,
   authenticate,
   fetchUserByUsername,
+  findUserWithToken,
   createReview,
 } = require("../db/index");
 
 const { requireUser } = require("../api/utils");
 
+const isLoggedIn = async (req, res, next) => {
+  try {
+    req.user = await findUserWithToken(req.headers.authorization);
+    console.log(req.user);
+    next();
+  } catch (ex) {
+    next(ex);
+  }
+};
+
 router.get("/", (req, res) => {
   res.send("Hello from auth");
 });
 
-router.get("/me", requireUser, async (req, res) => {
+router.get("/me", isLoggedIn, requireUser, (req, res, next) => {
   try {
-    if (req.user) {
-      // const userReviews = await createReview(req.user.id);
-      res.send(req.user);
-    } else {
-      res.send("Error, make sure you're logged in");
-    }
-  } catch (err) {
-    res.send({ err, message: "Something went wrong" });
+    res.send(req.user);
+  } catch (ex) {
+    next(ex);
   }
 });
 
@@ -84,29 +90,34 @@ router.post("/login", async (req, res, next) => {
     });
     return;
   }
+  const result = await authenticate(req.body);
   try {
-    const result = await authenticate(req.body);
     if (result) {
-      const token = jwt.sign({ id: result.id, username }, JWT, {
-        expiresIn: "7d",
-      });
+      const decoded = jwt.verify(result.token, JWT);
 
+      const token = jwt.sign(
+        { id: decoded.id, username: decoded.username },
+        JWT,
+        {
+          expiresIn: "7d",
+        }
+      );
+
+      // const decoded = jwt.verify(token, JWT);
+      // console.log(decoded);
       res.send({
         message: "Login successful",
         token,
         user: {
-          id: result.id,
-          username: result.username,
-          password: result.password,
+          id: decoded.id,
+          username: decoded.username,
         },
       });
-      return;
     } else {
       next({
         name: "Incorrect Credentials Error",
         message: "Username or password is incorrect",
       });
-      return;
     }
   } catch (err) {
     next(err);
