@@ -1,5 +1,9 @@
 body {
-  font-family: Futura;
+  font-family: futura;
+  background-color: antiquewhite;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 form {
   display: flex;
@@ -46,6 +50,20 @@ nav {
   border-radius: 10px;
   background-color: rgb(188, 143, 143, 0.3);
   box-shadow: 0 0 1px rgb(172, 165, 92);
+}
+
+.business-card img {
+  width: 250px;
+  height: 250px;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.single-card img {
+  max-width: 100%;
+  border-radius: 20px;
+  padding: 15px;
 }
 
 .single-card {

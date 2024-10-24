@@ -1,17 +1,33 @@
-import { useEffect, useState } from "react";
 import BusinessCard from "../components/Businesses/BusinessCard";
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
 function Businesses({ businesses }) {
-  // const navigate = useNavigate();
+  const [businessToShow, setBusinessToShow] = useState([]);
+  const businessSearch = (e) => {
+    const searchResults = businesses.find((business) =>
+      business.businessname.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setBusinessToShow(searchResults);
+  };
 
-  // onClick={() => navigate(`/business/${business.id}`)}
   return (
-    <div className="business-container">
-      {businesses.map((business) => (
-        <BusinessCard key={business.id} business={business} />
-      ))}
-    </div>
+    <>
+      <div>
+        <label className="search-styles">
+          <input
+            className="search-box"
+            type="text"
+            placeholder="Search For Business Here"
+            onChange={businessSearch}
+          ></input>
+        </label>
+        {/* <BusinessCard business={businessToShow} /> */}
+      </div>
+      <div className="business-container">
+        {businesses.map((business) => (
+          <BusinessCard key={business.id} business={business} />
+        ))}
+      </div>
+    </>
   );
 }
 

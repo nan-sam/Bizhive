@@ -28,16 +28,22 @@ const fetchBusinessByType = async (type) => {
   const response = await client.query(SQL, [type]);
   return response.rows;
 };
-const createBusiness = async ({ businessname, type }) => {
+const createBusiness = async ({ businessname, type, businessimage }) => {
   if (!businessname || !type) {
     const error = Error("businessname and type required!");
     error.status = 401;
     throw error;
   }
   const SQL = `
-    INSERT INTO business(id, businessname, type) VALUES($1, $2, $3) RETURNING *
+    INSERT INTO business(id, businessname, type, businessimage) VALUES($1, $2, $3, $4) RETURNING *
      `;
-  const response = await client.query(SQL, [uuid.v4(), businessname, type]);
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    businessname,
+    type,
+    businessimage ||
+      "https://images.pexels.com/photos/8872548/pexels-photo-8872548.jpeg",
+  ]);
   return response;
 };
 

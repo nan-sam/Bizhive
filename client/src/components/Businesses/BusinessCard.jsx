@@ -7,7 +7,7 @@ function BusinessCard({ business }) {
     <div className="business-card">
       <p>{business?.businessname}</p>
       <img
-        src={business?.image}
+        src={business?.businessimage}
         alt={business?.businessname}
         onClick={() => navigate(`/business/${business?.id}`)}
       />

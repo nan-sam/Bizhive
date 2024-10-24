@@ -17,19 +17,19 @@ const CreateReview = ({ auth, businesses, setReviews }) => {
   // const [submitted, setSubmitted] = useState();
   //A user should be able to search for a business, select that business, then leave a
   //review for that business
-  useEffect(() => {
-    const fetchBusiness = async () => {
-      try {
-        await axios(`${BASE_URL}/business/${businessId}`).then((response) => {
-          console.log(response.data);
-          setBusinessToReview(response.data);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchBusiness();
-  }, [businessId]);
+  // useEffect(() => {
+  //   const fetchBusiness = async () => {
+  //     try {
+  //       await axios(`${BASE_URL}/business/${businessId}`).then((response) => {
+  //         console.log(response.data);
+  //         setBusinessToReview(response.data);
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchBusiness();
+  // }, [businessId]);
 
   const businessSearch = (e) => {
     const searchResults = businesses.find((business) =>

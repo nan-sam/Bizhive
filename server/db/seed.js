@@ -16,11 +16,46 @@ const users = [
 ];
 
 const businesses = [
-  { businessname: "Flowers and Twine", type: "florist" },
-  { businessname: "Gardner and Beedle", type: "liquor" },
-  { businessname: "The Greater Good", type: "pub" },
-  { businessname: "Provenance", type: "food" },
-  { businessname: "The Beckford Arms", type: "pub" },
+  {
+    businessname: "Cabbages and Roses",
+    type: "clothing",
+    businessimage:
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYOyng8rRtc_kLahk0Py-5nL4Ud0cfo3UTW_U2Upiq72dNvUuVAw2VLEqklQVTZ9opYXuRf1db1vayqmueLRFSP0QlgpRZh_hwo0ul90KTcf07U_iUW6PPj3rUeNn0vHKhq4aKKx4y8an5/s1600/FullSizeRender.jpg",
+  },
+  {
+    businessname: "Gardner and Beedle",
+    type: "liquor",
+    businessimage:
+      "https://property-images-uk.s3.eu-west-2.amazonaws.com/i/c7efd777b6e2f7d32aa85c44c68a45fd.jpg",
+  },
+  {
+    businessname: "The Royal Oak",
+    type: "pub",
+    businessimage:
+      "https://cloudfront.sketchanet.com/u/245088/images/3840/1535044011jke7353.jpg",
+  },
+  {
+    businessname: "Pythouse Kitchen and Gardens",
+    type: "restaurant",
+    businessimage:
+      "https://images.squarespace-cdn.com/content/v1/597853a8d2b8576d2caa6efa/1696416773392-7STWY0ZWRV3J3F6M1TIE/Roast-76.jpg",
+  },
+  {
+    businessname: "The Beckford Arms",
+    type: "pub",
+    businessimage:
+      "https://images.mrandmrssmith.com/images/480x327/6471005-the-beckford-arms-hotel-wiltshire-united-kingdom.jpg",
+  },
+  {
+    businessname: "Number One Bruton",
+    type: "hotel",
+    businessimage:
+      "https://numberonebruton.com/wp-content/uploads/2024/05/townhouse-04.jpg",
+  },
+  {
+    businessname: "Flowers and Twine",
+    type: "florist",
+  },
 ];
 
 //If using foreign keys, if your table relies on another table, you can't drop it
@@ -51,7 +86,8 @@ const createTables = async () => {
       CREATE TABLE business(
         id UUID PRIMARY KEY,
         businessname VARCHAR(64),
-        type VARCHAR(40)
+        type VARCHAR(40),
+        businessimage VARCHAR(255) DEFAULT 'https://images.pexels.com/photos/8872548/pexels-photo-8872548.jpeg'
       )`);
 
     await client.query(`

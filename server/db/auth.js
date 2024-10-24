@@ -17,7 +17,7 @@ const createUser = async ({
     throw error;
   }
   //We used the $ because we let the library clean the data before inserstion
-  //ON CONFLICT (username) DO NOTHING
+
   const SQL = `
     INSERT INTO users(id, firstname, lastname, email, username, password) VALUES($1, $2, $3, $4, $5, $6) RETURNING *
   `;
@@ -30,7 +30,7 @@ const createUser = async ({
     await bcrypt.hash(password, 5),
   ]);
 
-  return response.rows[0];
+  return response;
 };
 
 const authenticate = async ({ username, password }) => {

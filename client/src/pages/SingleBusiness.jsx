@@ -21,10 +21,10 @@ function SingleBusiness({ auth }) {
     fetchBusiness();
   }, [id]);
 
-  //If logged in, implement a link to create a review
   return (
     <div className="single-card">
       <p>{business?.businessname}</p>
+      <img src={business?.businessimage} alt={business?.businessname} />
       {!auth && (
         <>
           <Link className="single-button" to="/login">

@@ -7,8 +7,8 @@ function UserCard({ user, auth }) {
     <div className="user-card">
       <p>{user?.username}</p>
       <img
-        src={user?.image}
-        alt={user?.username}
+        src={user?.userimage}
+        // alt={user?.username}
         onClick={() => navigate(`/users/${user?.id}`)}
       />
     </div>
