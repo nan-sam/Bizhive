@@ -17,7 +17,7 @@ const { requireUser } = require("../api/utils");
 const isLoggedIn = async (req, res, next) => {
   try {
     req.user = await findUserWithToken(req.headers.authorization);
-    console.log(req.user);
+
     next();
   } catch (ex) {
     next(ex);
@@ -37,7 +37,6 @@ router.get("/me", isLoggedIn, requireUser, (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-  // console.log("REQUEST BODY:", req.body);
   const { firstname, lastname, email, username, password } = req.body;
   if (!username || !password) {
     next({
@@ -103,8 +102,6 @@ router.post("/login", async (req, res, next) => {
         }
       );
 
-      // const decoded = jwt.verify(token, JWT);
-      // console.log(decoded);
       res.send({
         message: "Login successful",
         token,

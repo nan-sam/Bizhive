@@ -7,6 +7,8 @@ import Account from "./pages/Account";
 import Register from "./pages/Register";
 import Reviews from "./pages/Reviews";
 import Users from "./pages/Users";
+import SingleBusiness from "./pages/SingleBusiness";
+import SingleUser from "./pages/SingleUser";
 import Businesses from "./pages/Businesses";
 import CreateReview from "./pages/CreateReview";
 import Home from "./pages/Home";
@@ -127,7 +129,9 @@ function App() {
           path="/businesses"
           element={<Businesses businesses={businesses} />}
         />
+        <Route path="/business/:id" element={<SingleBusiness auth={auth} />} />
         <Route path="/users" element={<Users users={users} />} />
+        <Route path="/users/:id" element={<SingleUser auth={auth} />} />
         <Route path="/reviews" element={<Reviews reviews={reviews} />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account auth={auth} />} />

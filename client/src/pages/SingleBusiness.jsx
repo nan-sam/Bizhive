@@ -13,7 +13,7 @@ function SingleBusiness({ auth }) {
       try {
         await axios(`${BASE_URL}/business/${id}`).then((response) => {
           console.log(response.data);
-          setBusinessToReview(response.data);
+          setBusiness(response.data);
         });
       } catch (error) {
         console.log(error);
@@ -22,7 +22,11 @@ function SingleBusiness({ auth }) {
     fetchBusiness();
   }, [id]);
 
-  return <div>SingleBusiness</div>;
+  return (
+    <div className="single-card">
+      <p>{business.businessname}</p>
+    </div>
+  );
 }
 
 export default SingleBusiness;

@@ -12,7 +12,6 @@ function SingleUser() {
     const fetchUsers = async () => {
       try {
         await axios(`${BASE_URL}/users/${id}`).then((response) => {
-          console.log(response.data);
           setUser(response.data);
         });
       } catch (error) {
@@ -22,7 +21,11 @@ function SingleUser() {
     fetchUsers();
   }, []);
 
-  return <div>SingleUser</div>;
+  return (
+    <div className="single-card">
+      <p>{user.username}</p>
+    </div>
+  );
 }
 
 export default SingleUser;

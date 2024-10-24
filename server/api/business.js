@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   fetchBusinesses,
   fetchBusinessByType,
+  fetchBusinessById,
   createBusiness,
 } = require("../db/business");
 
@@ -16,6 +17,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/:id", async (req, res, next) => {
+  try {
+    const result = await fetchBusinessById(req.params.id);
+    if (!result) {
+      next({ name: "Not Found", message: "No matching business found" });
+      return;
+    }
+    res.send(result);
+  } catch (err) {
+    next(err);
+  }
+});
 // router.get("/type", async (req, res, next) => {
 //   try {
 //     const results = await fetchBusinessByType(req.business.type);

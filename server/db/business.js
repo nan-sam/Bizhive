@@ -7,6 +7,17 @@ const fetchBusinesses = async () => {
   return response.rows;
 };
 
+const fetchBusinessById = async (id) => {
+  try {
+    const SQL = `SELECT * FROM business WHERE id=$1`;
+    const {
+      rows: [user],
+    } = await client.query(SQL, [id]);
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
+};
 const fetchBusinessByType = async (type) => {
   if (!type) {
     const error = Error("Business type required!");
@@ -33,5 +44,6 @@ const createBusiness = async ({ businessname, type }) => {
 module.exports = {
   fetchBusinesses,
   fetchBusinessByType,
+  fetchBusinessById,
   createBusiness,
 };

@@ -23,6 +23,18 @@ const fetchUserByUsername = async (username) => {
   }
 };
 
+const fetchUserById = async (id) => {
+  try {
+    const SQL = `SELECT * FROM users WHERE id=$1`;
+    const {
+      rows: [user],
+    } = await client.query(SQL, [id]);
+
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
+};
 const findUserWithToken = async (token) => {
   console.log(token);
   const prefix = "Bearer ";
@@ -51,4 +63,9 @@ const findUserWithToken = async (token) => {
   }
 };
 
-module.exports = { fetchUsers, findUserWithToken, fetchUserByUsername };
+module.exports = {
+  fetchUsers,
+  findUserWithToken,
+  fetchUserByUsername,
+  fetchUserById,
+};
