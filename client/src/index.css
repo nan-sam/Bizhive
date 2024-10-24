@@ -1,5 +1,5 @@
 body {
-  font-family: verdana;
+  font-family: Futura;
 }
 form {
   display: flex;
@@ -19,4 +19,31 @@ nav {
   background-color: tomato;
   padding: 0.5rem;
   color: cornSilk;
+}
+
+.user-container,
+.business-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* text-align: center; */
+}
+
+.user-card,
+.business-card {
+  text-align: center;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid palegoldenrod;
+
+  margin-top: 20px;
+  margin-bottom: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: rgb(188, 143, 143, 0.3);
+  box-shadow: 0 0 1px rgb(172, 165, 92);
 }

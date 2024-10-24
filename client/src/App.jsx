@@ -54,7 +54,6 @@ function App() {
       const response = await axios.get(`${BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("token", response.status);
 
       if (response.status === 200) {
         setAuth(response.data);
@@ -134,7 +133,13 @@ function App() {
           <Route path="/account" element={<Account auth={auth} />} />
           <Route
             path="/createreview"
-            element={<CreateReview auth={auth} reviews={reviews} />}
+            element={
+              <CreateReview
+                auth={auth}
+                businesses={businesses}
+                reviews={reviews}
+              />
+            }
           />
         </Route>
       </Routes>

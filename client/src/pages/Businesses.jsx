@@ -1,23 +1,15 @@
 import { useEffect, useState } from "react";
-// import BusinessCard from "./components/Businesses/BusinessCard";
+import BusinessCard from "../components/Businesses/BusinessCard";
+import { Link } from "react-router-dom";
 
 function Businesses({ businesses }) {
-  //   const [businesses, setBusinesses] = useState([]);
-  //   useEffect(() => {
-  //     const fetchBusinesses = async () => {
-  //       const response = await fetch(`${BASE_URL}/business`);
-  //       const businesses = await response.json();
+  // const navigate = useNavigate();
 
-  //       setBusinesses(businesses);
-  //     };
-  //     fetchBusinesses();
-  //   }, []);
-
+  // onClick={() => navigate(`/business/${business.id}`)}
   return (
-    <div>
-      <h1>Placeholder for Businesses: {businesses.length}</h1>
+    <div className="business-container">
       {businesses.map((business) => (
-        <p>{business.businessname}</p>
+        <BusinessCard key={business.id} business={business} />
       ))}
     </div>
   );
