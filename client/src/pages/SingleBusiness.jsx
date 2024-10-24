@@ -12,7 +12,6 @@ function SingleBusiness({ auth }) {
     const fetchBusiness = async () => {
       try {
         await axios(`${BASE_URL}/business/${id}`).then((response) => {
-          console.log(response.data);
           setBusiness(response.data);
         });
       } catch (error) {
@@ -22,9 +21,25 @@ function SingleBusiness({ auth }) {
     fetchBusiness();
   }, [id]);
 
+  //If logged in, implement a link to create a review
   return (
     <div className="single-card">
-      <p>{business.businessname}</p>
+      <p>{business?.businessname}</p>
+      {!auth && (
+        <>
+          <Link className="single-button" to="/login">
+            Login
+          </Link>
+          <p className="single-p">to check out this book</p>
+        </>
+      )}
+      {auth && (
+        <>
+          <Link className="single-button" to="/createreview">
+            Create Review
+          </Link>
+        </>
+      )}
     </div>
   );
 }

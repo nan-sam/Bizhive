@@ -19,11 +19,11 @@ function SingleUser() {
       }
     };
     fetchUsers();
-  }, []);
+  }, [id]);
 
   return (
     <div className="single-card">
-      <p>{user.username}</p>
+      <p>{user?.username}</p>
     </div>
   );
 }
