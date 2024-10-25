@@ -9,7 +9,7 @@ function Account({ auth }) {
     <>
       <h1>My Account</h1>
       <Link to="/createreview">Create Review</Link>
-      <p>Welcome, {auth.username}!</p>
+      <p>Welcome, {auth?.username}!</p>
     </>
   );
 }

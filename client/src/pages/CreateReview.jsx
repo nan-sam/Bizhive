@@ -1,65 +1,82 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
-{
-  /* <Route path="/books/:id" element={<SingleBook token={token} />} */
-}
+import { useParams, useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const CreateReview = ({ auth, businesses, setReviews }) => {
-  const { businessId } = useParams();
-  const [comments, setComments] = useState(null);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [business, setBusiness] = useState(null);
+  const [review, setReview] = useState(null);
   const [rating, setRating] = useState(null);
+  // const [businessToShow, setBusinessToShow] = useState(null);
 
-  const [businessToReview, setBusinessToReview] = useState({});
-  // const [submitted, setSubmitted] = useState();
-  //A user should be able to search for a business, select that business, then leave a
-  //review for that business
-  // useEffect(() => {
-  //   const fetchBusiness = async () => {
-  //     try {
-  //       await axios(`${BASE_URL}/business/${businessId}`).then((response) => {
-  //         console.log(response.data);
-  //         setBusinessToReview(response.data);
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchBusiness();
-  // }, [businessId]);
+  useEffect(() => {
+    const fetchBusiness = async () => {
+      try {
+        await axios(`${BASE_URL}/business/${id}`).then((response) => {
+          setBusiness(response.data);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchBusiness();
+  }, [id]);
 
-  const businessSearch = (e) => {
-    const searchResults = businesses.find((business) =>
-      business.businessname.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setBusinessToReview(searchResults);
+  const handleChange = (e) => {
+    setReview(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleRating = (e) => {
+    setRating(e.target.value);
+  };
+  //Submit review
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    //Submit review
-
-    // Post new review to the backend
+    const newReview = {
+      usersid: auth.id,
+      businessid: business.id,
+      review,
+      rating,
+    };
+    console.log("authid", auth.id);
+    console.log(newReview);
+    try {
+      const response = await axios.post(`${BASE_URL}/reviews`, newReview);
+      console.log("new review", response);
+      if (response) {
+        const newReviews = await axios(`${BASE_URL}/reviews`);
+        setReviews(newReviews);
+        if (response.status === 200) {
+          alert("Review successfully submitted");
+          navigate(`/businesses`);
+        }
+        //f successful naviage back to businesses
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  // Post new review to the backend
 
   return (
-    <form>
-      <h2>Leave a Review</h2>
-      <label>Business Search</label>
-      <input
-        type="text"
-        placeholder="Business name"
-        onChange={businessSearch}
-      />
-      <label>Review</label>
-      <textarea placeholder="What did you think?" />
-      <button type="submit" onSubmit={handleSubmit}>
-        Submit
-      </button>
+    <form onSubmit={handleSubmit}>
+      <h2>Leave a Review for: {business?.businessname}</h2>
+      {/* <img src={business?.businessimage} /> */}
+      <label className="review-form">Review</label>
+      <textarea placeholder="What did you think?" onChange={handleChange} />
+      <label className="review-form">
+        Rating
+        <input type="radio" name="rating" value="1" onChange={handleRating} />
+        <input type="radio" name="rating" value="2" onChange={handleRating} />
+        <input type="radio" name="rating" value="3" onChange={handleRating} />
+        <input type="radio" name="rating" value="4" onChange={handleRating} />
+        <input type="radio" name="rating" value="5" onChange={handleRating} />
+      </label>
+      <button type="submit">Submit</button>
     </form>
   );
 };

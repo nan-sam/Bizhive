@@ -5,7 +5,7 @@ const pg = require("pg");
 const client = require("./client");
 const { createUser } = require("./auth");
 const { createBusiness } = require("./business");
-const { createReview } = require("./reviews");
+const { fetchReviews } = require("./reviews");
 
 const users = [
   { username: "moe", password: "m_pw" },
@@ -92,8 +92,9 @@ const createTables = async () => {
 
     await client.query(`
     CREATE TABLE reviews(
-      usersId UUID REFERENCES users(id),
-      businessId UUID REFERENCES business(id),
+      id UUID PRIMARY KEY,
+      usersid UUID REFERENCES users(id),
+      businessid UUID REFERENCES business(id),
       review VARCHAR(1022),
       rating INTEGER CHECK(rating>=1 AND rating<=5)
       ) `);
@@ -136,8 +137,9 @@ const seedDatabase = async () => {
     console.log("USERS SUCCESSFULLY ADDED");
     console.log("INSERTING BUSINESS");
     await insertBusiness();
-
     console.log("BUSINESS SUCCESSFULLY INSERTED");
+    await fetchReviews();
+    console.log("REVIEWS SUCCESSFULLY FETCHED");
   } catch (err) {
     console.log(err);
   } finally {

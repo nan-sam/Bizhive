@@ -4,7 +4,7 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-function SingleBusiness({ auth }) {
+function SingleBusiness({ auth, reviews }) {
   const { id } = useParams();
   const [business, setBusiness] = useState(null);
 
@@ -25,6 +25,7 @@ function SingleBusiness({ auth }) {
     <div className="single-card">
       <p>{business?.businessname}</p>
       <img src={business?.businessimage} alt={business?.businessname} />
+      {/* Double check functionality */}
       {!auth && (
         <>
           <Link className="single-button" to="/login">
@@ -35,7 +36,7 @@ function SingleBusiness({ auth }) {
       )}
       {auth && (
         <>
-          <Link className="single-button" to="/createreview">
+          <Link className="single-button" to={`/createreview/${id}`}>
             Create Review
           </Link>
         </>

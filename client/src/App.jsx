@@ -23,6 +23,8 @@ function App() {
   const [businesses, setBusinesses] = useState([]);
   const [reviews, setReviews] = useState([]);
 
+  console.log(reviews);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -129,21 +131,32 @@ function App() {
           path="/businesses"
           element={<Businesses businesses={businesses} />}
         />
-        <Route path="/business/:id" element={<SingleBusiness auth={auth} />} />
+        <Route
+          path="/business/:id"
+          element={<SingleBusiness auth={auth} reviews={reviews} />}
+        />
         <Route path="/users" element={<Users users={users} />} />
         <Route path="/users/:id" element={<SingleUser auth={auth} />} />
         <Route path="/reviews" element={<Reviews reviews={reviews} />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account auth={auth} />} />
           <Route
-            path="/createreview"
+            path="/createreview/:id"
             element={
               <CreateReview
                 auth={auth}
                 businesses={businesses}
+                setReviews={setReviews}
                 reviews={reviews}
               />
             }
+          />
+          <Route
+            path="/createreview"
+            element={<CreateReview />}
+            auth={auth}
+            businesses={businesses}
+            reviews={reviews}
           />
         </Route>
       </Routes>
