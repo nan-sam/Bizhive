@@ -142,7 +142,7 @@ function App() {
           element={<SingleBusiness auth={auth} reviews={reviews} />}
         />
         <Route path="/users" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<SingleUser auth={auth} />} />
+        <Route path="/users/:id" element={<SingleUser reviews={reviews} />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account auth={auth} />} />
           <Route

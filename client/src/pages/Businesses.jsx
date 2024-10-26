@@ -20,7 +20,6 @@ function Businesses({ businesses }) {
             onChange={businessSearch}
           ></input>
         </label>
-        {/* <BusinessCard business={businessToShow} /> */}
       </div>
       <div className="business-container">
         {businesses.map((business) => (

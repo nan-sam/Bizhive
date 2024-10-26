@@ -39,6 +39,13 @@ function SingleBusiness({ auth, reviews }) {
         {averageScore === "NaN" ? <p>No ratings yet</p> : averageScore}
       </h3>
       <img src={business?.businessimage} alt={business?.businessname} />
+      {businessReviews.map((review) => (
+        <div key={review?.id} className="single-reviews">
+          <p>From {review?.username}</p>
+          <p>'{review?.review}'</p>
+          <p>Rating: {review?.rating}</p>
+        </div>
+      ))}
       {/* Double check functionality */}
       {!auth && (
         <>
