@@ -5,7 +5,6 @@ import axios from "axios";
 import Navigations from "./components/Navigations";
 import Account from "./pages/Account";
 import Register from "./pages/Register";
-import Reviews from "./pages/Reviews";
 import Users from "./pages/Users";
 import SingleBusiness from "./pages/SingleBusiness";
 import SingleUser from "./pages/SingleUser";
@@ -144,7 +143,6 @@ function App() {
         />
         <Route path="/users" element={<Users users={users} />} />
         <Route path="/users/:id" element={<SingleUser auth={auth} />} />
-        <Route path="/reviews" element={<Reviews reviews={reviews} />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account auth={auth} />} />
           <Route

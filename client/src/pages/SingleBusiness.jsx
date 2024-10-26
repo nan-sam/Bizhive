@@ -21,9 +21,23 @@ function SingleBusiness({ auth, reviews }) {
     fetchBusiness();
   }, [id]);
 
+  const businessReviews = reviews?.filter(
+    (review) => review?.businessid === business?.id
+  );
+
+  const averageReviews =
+    businessReviews.reduce((sum, review) => sum + review.rating, 0) /
+    businessReviews.length;
+
+  const averageScore = averageReviews.toFixed(1);
+
   return (
     <div className="single-card">
-      <p>{business?.businessname}</p>
+      <h2>{business?.businessname}</h2>
+      <h3>
+        Average Rating:{" "}
+        {averageScore === "NaN" ? <p>No ratings yet</p> : averageScore}
+      </h3>
       <img src={business?.businessimage} alt={business?.businessname} />
       {/* Double check functionality */}
       {!auth && (

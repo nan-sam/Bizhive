@@ -9,10 +9,6 @@ router.get("/", async (req, res) => {
   res.send(result);
 });
 
-router.get("/createreview", (req, res) => {
-  res.send("Hello from create reviews");
-});
-
 router.post("/", async (req, res, next) => {
   try {
     const { userid, businessid, review, rating } = req.body;
