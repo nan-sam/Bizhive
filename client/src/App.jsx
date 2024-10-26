@@ -23,8 +23,6 @@ function App() {
   const [businesses, setBusinesses] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  console.log(reviews);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,6 +47,15 @@ function App() {
       setUsers(users);
     };
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const response = await axios.get(`${BASE_URL}/reviews`);
+      const reviews = response.data;
+      setReviews(reviews);
+    };
+    fetchReviews();
   }, []);
 
   const attemptLoginWithToken = async () => {

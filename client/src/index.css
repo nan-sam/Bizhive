@@ -26,7 +26,8 @@ nav {
 }
 
 .user-container,
-.business-container {
+.business-container,
+.review-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -34,7 +35,8 @@ nav {
 }
 
 .user-card,
-.business-card {
+.business-card,
+.review-card {
   text-align: center;
   width: 20%;
   display: flex;

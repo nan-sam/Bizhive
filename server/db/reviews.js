@@ -4,30 +4,25 @@ const uuid = require("uuid");
 //Give reviews their own id to enable deletion?
 
 const fetchReviews = async () => {
-  const SQL = `SELECT * FROM reviews`;
-  const response = await client.query(SQL);
-  return response.rows;
-
-  // const fetchReviews = async () => {
-  //   try {
-  //     const SQL = `SELECT
-  //   businesses.businessname,
-  //   businesses.imageUrl,
-  //   reviews.id,
-  //   reviews.userid,
-  //   reviews.businessid,
-  //   reviews.comments,
-  //   reviews.rating,
-  //   users.username
-  //   FROM reviews
-  //   INNER JOIN businesses ON reviews.businessid = businesses.id
-  //   INNER JOIN users ON reviews.userid = users.id`;
-  //     const response = await client.query(SQL);
-  //     return response.rows;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  try {
+    const SQL = `SELECT
+    business.businessname,
+    business.type,
+    business.businessimage,
+    reviews.id,
+    reviews.usersid,
+    reviews.businessid,
+    reviews.review,
+    reviews.rating,
+    users.username
+    FROM reviews
+    INNER JOIN business ON reviews.businessid = business.id
+    INNER JOIN users ON reviews.usersid = users.id`;
+    const response = await client.query(SQL);
+    return response.rows;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const createReview = async ({ usersid, businessid, review, rating }) => {
