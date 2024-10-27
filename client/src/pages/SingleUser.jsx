@@ -6,7 +6,6 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function SingleUser({ reviews }) {
-  console.log("reviews", reviews);
   const { id } = useParams();
   const [user, setUser] = useState(null);
 
@@ -22,15 +21,15 @@ function SingleUser({ reviews }) {
     };
     fetchUsers();
   }, [id]);
-  console.log("user", user);
+
   const userReviews = reviews?.filter((review) => review?.usersid === user?.id);
-  console.log("userReviews", userReviews);
+
   return (
     <div className="single-card">
-      <p>{user?.username}</p>
+      <h3>{user?.username}</h3>
       {userReviews.map((review) => (
         <div key={review.id} className="user-reviews">
-          <p>For: {review?.businessname}</p>
+          <h4>{review?.businessname}</h4>
           <p>'{review?.review}'</p>
           <p>Rating:{review?.rating}</p>
         </div>

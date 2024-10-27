@@ -8,8 +8,10 @@ function Account({ auth }) {
   return (
     <>
       <h1>My Account</h1>
-      <Link to="/createreview">Create Review</Link>
-      <p>Welcome, {auth?.username}!</p>
+
+      <h2>Welcome, {auth?.username}!</h2>
+      <h3>Your favorite businesses</h3>
+      <h3>Notification Status</h3>
     </>
   );
 }
