@@ -1,15 +1,22 @@
+import BusinessPeople from "../assets/BusinessPeople.jpg";
+
 const Home = ({ auth, authAction, logout, businesses, users, reviews }) => {
   return (
     <div>
-      <h1>Home</h1>
-      <p>
-        Display some interesting information about our {businesses.length}{" "}
-        Businesses
+      <h3>
+        With reviews for {businesses.length} Businesses
         <br />
-        Display some interesting information about our {users.length} Users
+        Supported by {users.length} Users
         <br />
-        Display some interesting information about our {reviews.length} Reviews
-      </p>
+        With {reviews.length} Reviews and counting!
+      </h3>
+      <img
+        className="business-image"
+        src={BusinessPeople}
+        // width={700}
+        // height={500}
+        alt="Business People"
+      ></img>
       {/* {!auth.id ? (
         <>
           <AuthForm authAction={authAction} mode="login" />

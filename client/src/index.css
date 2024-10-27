@@ -1,13 +1,19 @@
 body {
   font-family: futura;
   background-color: antiquewhite;
-  margin: 0;
-  padding: 0;
+  margin: 10px;
+  padding: 10px;
   box-sizing: border-box;
 }
 form {
   display: flex;
   flex-direction: column;
+}
+
+textarea {
+  border-radius: 10px;
+  width: 50%;
+  height: 250px;
 }
 
 form > * {
@@ -57,6 +63,7 @@ nav {
 .business-card img {
   width: 250px;
   height: 250px;
+  cursor: pointer;
   border-radius: 15px;
   padding: 10px;
   margin: 0 auto;
@@ -83,4 +90,49 @@ nav {
 }
 
 .review-form {
+  border-radius: 10px;
+}
+
+.logout-button {
+  width: 5%;
+  height: 30px;
+  background: rgb(211, 147, 82);
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 10px;
+  position: absolute;
+  margin-left: 1300px;
+  margin-top: -100px;
+  color: black;
+  font-weight: 700;
+}
+
+button {
+  width: 7%;
+  height: 40px;
+  background: rgb(211, 147, 82);
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 10px;
+  position: absolute;
+  margin-left: 350px;
+  margin-top: 400px;
+  color: black;
+  font-weight: 700;
+}
+
+.business-image {
+  width: 700px;
+  height: 250;
+  border-radius: 15px;
+  position: absolute;
+  margin-top: -100px;
+  margin-left: 600px;
+  padding: 10px;
 }

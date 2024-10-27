@@ -1,7 +1,7 @@
 //Endpoint for reviews
 const express = require("express");
 const router = express.Router();
-const { fetchReviews, createReview } = require("../db/reviews");
+const { fetchReviews, createReview, deleteReview } = require("../db/reviews");
 
 router.get("/", async (req, res) => {
   //Try catch
@@ -30,6 +30,24 @@ router.post("/", async (req, res, next) => {
       next({
         name: "IncorrectInformationError",
         message: "Trouble creating review. Try again later",
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const result = await deleteReview(req.body);
+
+    if (result) {
+      res.send({ message: "Review successfully deleted" });
+      return;
+    } else {
+      next({
+        message: "Trouble deleting review. Try ahain later",
       });
     }
   } catch (err) {

@@ -107,7 +107,11 @@ function App() {
         users={users}
         reviews={reviews}
       />
-      {auth.id && <button onClick={logout}>Logout {auth.username}</button>}
+      {auth.id && (
+        <button className="logout-button" onClick={logout}>
+          Logout {auth.username}
+        </button>
+      )}
       <Routes>
         <Route
           path="/"
