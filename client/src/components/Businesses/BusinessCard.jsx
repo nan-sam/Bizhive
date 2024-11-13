@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function BusinessCard({ business, reviews }) {
+function BusinessCard({ business }) {
   const navigate = useNavigate();
   return (
     <div className="business-card">

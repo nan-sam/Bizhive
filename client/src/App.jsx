@@ -96,6 +96,7 @@ function App() {
   const logout = () => {
     window.localStorage.removeItem("token");
     setAuth({});
+    navigate("/");
   };
 
   return (
@@ -146,7 +147,10 @@ function App() {
           element={<SingleBusiness auth={auth} reviews={reviews} />}
         />
         <Route path="/users" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<SingleUser reviews={reviews} />} />
+        <Route
+          path="/users/:id"
+          element={<SingleUser reviews={reviews} auth={auth} />}
+        />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account auth={auth} />} />
           <Route

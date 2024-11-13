@@ -39,7 +39,8 @@ router.post("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
   try {
-    const { id } = req.body;
+    const { reviewid } = req.body;
+    console.log("body", req.body);
     const result = await deleteReview(req.body);
 
     if (result) {

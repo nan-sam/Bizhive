@@ -111,20 +111,7 @@ nav {
 }
 
 button {
-  width: 7%;
-  height: 40px;
-  background: rgb(211, 147, 82);
-  border: none;
-  outline: none;
-  border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  font-size: 10px;
-  position: absolute;
-  margin-left: 350px;
-  margin-top: 400px;
-  color: black;
-  font-weight: 700;
 }
 
 .business-image {
@@ -135,4 +122,19 @@ button {
   margin-top: -100px;
   margin-left: 600px;
   padding: 10px;
+}
+
+.search-styles {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+.search-box {
+  border-radius: 10px;
+  box-shadow: 0 0 4px rosybrown;
+  border: 1px solid palegoldenrod;
+  height: 30px;
+  width: 600px;
 }
