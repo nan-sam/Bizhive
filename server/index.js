@@ -1,6 +1,6 @@
 //We import express to help us create routes (locations on our server we make requests to(endpoints))
 //Just like we imported axios, react-router-dom etc with npm, we do the same with express and store
-//it in a variable. The use this objec to help us create a server
+//it in a variable. Then use this object to help us create a server
 //We then use our logic to take this request, do something to it, and respond to it
 const express = require("express");
 
