@@ -23,6 +23,7 @@ const AuthForm = ({ authAction, mode = "" }) => {
       />
       <input
         value={password}
+        type="password"
         placeholder="password"
         onChange={(ev) => setPassword(ev.target.value)}
       />

@@ -39,6 +39,7 @@ const authenticate = async ({ username, password }) => {
   `;
 
   const response = await client.query(SQL, [username]);
+
   if (
     !response.rows.length ||
     (await bcrypt.compare(password, response.rows[0].password)) === false
@@ -48,13 +49,13 @@ const authenticate = async ({ username, password }) => {
     throw error;
   }
 
-  const token = await jwt.sign(
+  const token = jwt.sign(
     { id: response.rows[0].id, username: response.rows[0].username },
     JWT
   );
 
   // const decoded = jwt.verify(token, JWT);
-  // console.log(decoded);
+  // console.log("check secret:", decoded);
 
   return { token };
 };

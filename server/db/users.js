@@ -1,6 +1,7 @@
 const client = require("./client");
 const jwt = require("jsonwebtoken");
 const JWT = process.env.JWT;
+
 // const bcrypt = require("bcrypt");
 
 const fetchUsers = async () => {
@@ -36,7 +37,6 @@ const fetchUserById = async (id) => {
   }
 };
 const findUserWithToken = async (token) => {
-  console.log(token);
   const prefix = "Bearer ";
 
   if (token.startsWith(prefix)) {
