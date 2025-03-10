@@ -101,7 +101,7 @@ function App() {
 
   return (
     <>
-      <h1>Acme Business Reviews</h1>
+      <h1>Bizhive</h1>
       <Navigations
         auth={auth}
         businesses={businesses}
@@ -164,12 +164,16 @@ function App() {
               />
             }
           />
+
           <Route
             path="/createreview"
-            element={<CreateReview />}
-            auth={auth}
-            businesses={businesses}
-            reviews={reviews}
+            element={
+              <CreateReview
+                auth={auth}
+                businesses={businesses}
+                setReviews={setReviews}
+              />
+            }
           />
         </Route>
       </Routes>

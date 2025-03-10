@@ -52,7 +52,7 @@ function SingleBusiness({ auth, reviews }) {
           <Link className="single-button" to="/login">
             Login
           </Link>
-          <p className="single-p">to check out this book</p>
+          <p className="single-p"></p>
         </>
       )}
       {auth && (

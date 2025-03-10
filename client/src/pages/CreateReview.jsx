@@ -6,54 +6,65 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const CreateReview = ({ auth, businesses, setReviews }) => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams(); // Get business ID from URL (if exists)
   const [business, setBusiness] = useState(null);
-  const [review, setReview] = useState(null);
+  const [filteredBusinesses, setFilteredBusinesses] = useState([]); // Store matching businesses
+  const [selectedBusiness, setSelectedBusiness] = useState(null); // Selected business for review
+  const [review, setReview] = useState("");
   const [rating, setRating] = useState(null);
-  // const [businessToShow, setBusinessToShow] = useState(null);
 
   useEffect(() => {
-    const fetchBusiness = async () => {
-      try {
-        await axios(`${BASE_URL}/business/${id}`).then((response) => {
-          setBusiness(response.data);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchBusiness();
+    // If ID exists in URL, fetch the business and don't show search bar
+    if (id) {
+      axios
+        .get(`${BASE_URL}/business/${id}`)
+        .then((response) => setBusiness(response.data))
+        .catch((error) => console.error("Error fetching business:", error));
+    }
   }, [id]);
+  // Handle search input change
 
-  const handleChange = (e) => {
-    setReview(e.target.value);
+  const handleSearch = (e) => {
+    if (!Array.isArray(businesses)) {
+      console.error("Businesses is not an array", businesses);
+      return;
+    }
+
+    const searchTerm = e.target.value.toLowerCase();
+    const results = businesses.filter((b) =>
+      b.businessname.toLowerCase().includes(searchTerm)
+    );
+    setFilteredBusinesses(results);
   };
 
-  const handleRating = (e) => {
-    setRating(e.target.value);
+  const handleSelectBusiness = (business) => {
+    setSelectedBusiness(business);
+    setFilteredBusinesses([]); // Hide dropdown
   };
-  //Submit review
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const businessToReview = business || selectedBusiness;
+
+    if (!businessToReview) {
+      alert("Please select a business before submitting a review.");
+      return;
+    }
     const newReview = {
       usersid: auth.id,
-      businessid: business.id,
+      businessid: selectedBusiness.id,
       review,
       rating,
     };
-    console.log("authid", auth.id);
-    console.log(newReview);
+
     try {
       const response = await axios.post(`${BASE_URL}/reviews`, newReview);
-      console.log("new review", response);
-      if (response) {
+      if (response.status === 200) {
         const newReviews = await axios(`${BASE_URL}/reviews`);
         setReviews(newReviews);
-        if (response.status === 200) {
-          alert("Review successfully submitted");
-          navigate(`/businesses`);
-        }
-        //f successful naviage back to businesses
+        alert("Review successfully submitted");
+        //If successful navigate back to businesses
+        navigate(`/businesses`);
       }
     } catch (err) {
       console.log(err);
@@ -64,20 +75,53 @@ const CreateReview = ({ auth, businesses, setReviews }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Leave a Review for: {business?.businessname}</h2>
-      {/* <img src={business?.businessimage} /> */}
+      <h2>
+        Leave a Review for:{" "}
+        {business?.businessname ||
+          selectedBusiness?.businessname ||
+          "Select a Business"}
+      </h2>
+
+      {/* Show Search Bar Only If No Business Is Selected */}
+      {!business && (
+        <>
+          <input
+            type="text"
+            placeholder="Search for a business..."
+            onChange={handleSearch}
+          />
+          <ul>
+            {filteredBusinesses.map((b) => (
+              <ul key={b.id} onClick={() => handleSelectBusiness(b)}>
+                {b.businessname}
+              </ul>
+            ))}
+          </ul>
+        </>
+      )}
+
       <label className="review-form">Review</label>
-      <textarea placeholder="What did you think?" onChange={handleChange} />
+      <textarea
+        placeholder="What did you think?"
+        onChange={(e) => setReview(e.target.value)}
+      />
+
       <label className="review-form">
-        Rating
-        <input type="radio" name="rating" value="1" onChange={handleRating} />
-        <input type="radio" name="rating" value="2" onChange={handleRating} />
-        <input type="radio" name="rating" value="3" onChange={handleRating} />
-        <input type="radio" name="rating" value="4" onChange={handleRating} />
-        <input type="radio" name="rating" value="5" onChange={handleRating} />
+        Rating:
+        {[1, 2, 3, 4, 5].map((num) => (
+          <input
+            key={num}
+            type="radio"
+            name="rating"
+            value={num}
+            onChange={(e) => setRating(e.target.value)}
+          />
+        ))}
       </label>
+
       <button type="submit">Submit</button>
     </form>
   );
 };
+
 export default CreateReview;
