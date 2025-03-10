@@ -22,8 +22,8 @@ const CreateReview = ({ auth, businesses, setReviews }) => {
         .catch((error) => console.error("Error fetching business:", error));
     }
   }, [id]);
-  // Handle search input change
 
+  // Handle search input change
   const handleSearch = (e) => {
     if (!Array.isArray(businesses)) {
       console.error("Businesses is not an array", businesses);
@@ -52,7 +52,7 @@ const CreateReview = ({ auth, businesses, setReviews }) => {
     }
     const newReview = {
       usersid: auth.id,
-      businessid: selectedBusiness.id,
+      businessid: businessToReview.id, //
       review,
       rating,
     };
