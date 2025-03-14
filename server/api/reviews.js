@@ -37,22 +37,4 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.delete("/", async (req, res, next) => {
-  try {
-    const { reviewid } = req.body;
-    console.log("body", req.body);
-    const result = await deleteReview(req.body);
-
-    if (result) {
-      res.send({ message: "Review successfully deleted" });
-      return;
-    } else {
-      next({
-        message: "Trouble deleting review. Try ahain later",
-      });
-    }
-  } catch (err) {
-    next(err);
-  }
-});
 module.exports = router;

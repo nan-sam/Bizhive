@@ -44,14 +44,24 @@ const createReview = async ({ usersid, businessid, review, rating }) => {
   return response.rows[0];
 };
 
-const deleteReview = async (id) => {
-  const SQL = `DELETE from reviews WHERE id=$1 RETURNING * `;
-  const {
-    rows: [review],
-  } = client.query(SQL, [id]);
-  return review;
+const deleteReview = async ({ reviewid, userid }) => {
+  try {
+    console.log("Attempting to delete review with:");
+    console.log("Review ID:", reviewid);
+    console.log("Users ID:", userid);
+    const SQL = `DELETE FROM reviews WHERE id=$1 AND usersid=$2 RETURNING *`;
+    const {
+      rows: [review],
+    } = await client.query(SQL, [reviewid, userid]);
+    if (!review) {
+      throw Error("Review not found");
+    }
+    return review;
+  } catch (error) {
+    console.error("Error deleting review:", error.message);
+    throw error; // Rethrow the error for handling at a higher level
+  }
 };
-
 // const updateReview = async () => {} -- patch request;
 
 module.exports = { createReview, fetchReviews, deleteReview };
